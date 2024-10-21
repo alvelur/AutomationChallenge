@@ -23,8 +23,9 @@ public class DuckDuckGoHomePage extends Page {
      *  @param text the search query to be entered into the search input field
      *  @throws NoSuchElementException if the search input field is not found
      */
-    public void searchFor(String text) {
+    public DuckDuckGoResultsPage searchFor(String text) {
         waitFor(presenceOfElementLocated(searchInput)).sendKeys(text ,Keys.ENTER);
+        return new DuckDuckGoResultsPage(this.getWebDriver());
     }
 
 }
