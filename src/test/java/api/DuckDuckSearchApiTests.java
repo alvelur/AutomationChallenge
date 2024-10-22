@@ -1,5 +1,6 @@
 package api;
 
+import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
@@ -21,17 +22,23 @@ public class DuckDuckSearchApiTests {
     }
 
     @Test
+    @Description("Test to verify DuckDuckGo API search functionality for the term 'Simpson'")
     public void testDuckDuckGoSearchAPI() {
+        log.traceEntry("Running test: testDuckDuckGoSearchAPI");
 
         String endpoint = "?q=simpson&format=json";
+
+        log.info("Sending GET request to DuckDuckGo API");
         Response response = apiBase.get(endpoint);
-        Assertions.assertEquals(200, response.getStatusCode(), "");
-        log.info(response.asString());
+
+        log.info(response.asString() + "with status code" + response.getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
+
         ImageResponse imageResponse = apiBase.deserializeResponse(response, ImageResponse.class);
+        Assertions.assertNotNull(imageResponse, "Response was null");
+        Assertions.assertFalse(imageResponse.getRelatedTopics().isEmpty(), "RelatedTopicsList is empty");
 
-        Assertions.assertNotNull(imageResponse, "La respuesta no debería ser null");
-        Assertions.assertFalse(imageResponse.getRelatedTopics().isEmpty(), "La lista de RelatedTopics no debería estar vacía");
-
+        log.traceExit("Test completed! testDuckDuckGoSearchAPI");
     }
 
 }

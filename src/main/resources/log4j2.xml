@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+    <Properties>
+        <Property name="DefaultPattern">
+            %highlight{%06relative %-5level %-6.-6markerSimpleName -> %replace{%-50msg}{^Throwing\s*}{Throwing }%notEmpty{%ex{short.message}}}%n
+        </Property>
+
+        <Property name="DefaultLogDirectoryPath">
+            target/logs
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${DefaultPattern}"/>
+        </Console>
+
+        <File name="file" fileName="${DefaultLogDirectoryPath}/automation.log">
+            <PatternLayout pattern="${DefaultPattern}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+
+
+        <Root level="ALL">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="file"/>
+        </Root>
+
+        <Logger name="com.prediktive.challenge" level="debug">
+            <AppenderRef ref="console"/>
+        </Logger>
+    </Loggers>
+</Configuration>
