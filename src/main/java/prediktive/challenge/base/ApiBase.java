@@ -28,4 +28,8 @@ public class ApiBase {
     public <T> T deserializeResponse(Response response, Class<T> responseClass) {
         return gson.fromJson(response.asString(), responseClass);
     }
+
+    public String serializeRequestBody(Object body) {
+        return gson.toJson(body);
+    }
 }
