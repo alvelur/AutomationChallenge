@@ -1,4 +1,5 @@
 package prediktive.challenge.core;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -7,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.time.Duration;
 
+@Slf4j
 public class DriverFactory {
 
     public static WebDriver initializeDriver(String browser) {
@@ -26,6 +28,7 @@ public class DriverFactory {
                 break;
 
             default:
+                log.error("Not supported browser: {}", browser);
                 throw new IllegalArgumentException("Not supported browser: " + browser);
         }
 
