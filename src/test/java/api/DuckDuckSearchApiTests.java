@@ -41,4 +41,26 @@ public class DuckDuckSearchApiTests {
         log.traceExit("Test completed! testDuckDuckGoSearchAPI");
     }
 
+    @Test
+    @Description("Negative test to verify DuckDuckGo API response for an invalid search term")
+    public void testDuckDuckGoSearchAPIWithInvalidTerm() {
+        log.traceEntry("Running test: testDuckDuckGoSearchAPIWithInvalidTerm");
+
+        String invalidEndpoint = "?q=simpsons&format=json";
+
+        log.info("Sending GET request to DuckDuckGo API with an invalid search term");
+        Response response = apiBase.get(invalidEndpoint);
+
+        log.info("Response: " + response.asString() + " with status code: " + response.getStatusCode());
+
+        Assertions.assertEquals(200, response.getStatusCode(), "Expected HTTP status code 200");
+
+        ImageResponse imageResponse = apiBase.deserializeResponse(response, ImageResponse.class);
+        Assertions.assertNotNull(imageResponse, "Response was null");
+
+        Assertions.assertTrue(imageResponse.getRelatedTopics().isEmpty(), "Expected RelatedTopicsList to be empty");
+
+        log.traceExit("Test completed! testDuckDuckGoSearchAPIWithInvalidTerm");
+    }
+
 }
