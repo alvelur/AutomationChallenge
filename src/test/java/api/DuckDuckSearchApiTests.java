@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import prediktive.challenge.base.ApiBase;
 import prediktive.challenge.pojo.ImageResponse;
+import prediktive.challenge.pojo.RelatedTopic;
 
 @Log4j2
 public class DuckDuckSearchApiTests {
@@ -61,6 +62,35 @@ public class DuckDuckSearchApiTests {
         Assertions.assertTrue(imageResponse.getRelatedTopics().isEmpty(), "Expected RelatedTopicsList to be empty");
 
         log.traceExit("Test completed! testDuckDuckGoSearchAPIWithInvalidTerm");
+    }
+
+    @Test
+    @Description("Test to print all Icons on the DuckDuckGo API search functionality for the term 'Simpson'")
+    public void printIconsSearchAPI() {
+        log.traceEntry("Running test: testDuckDuckGoSearchAPI");
+
+        String endpoint = "?q=simpson&format=json";
+
+        log.info("Sending GET request to DuckDuckGo API");
+        Response response = apiBase.get(endpoint);
+
+        log.info(response.asString() + "with status code" + response.getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
+
+        ImageResponse imageResponse = apiBase.deserializeResponse(response, ImageResponse.class);
+        Assertions.assertNotNull(imageResponse, "Response was null");
+        Assertions.assertFalse(imageResponse.getRelatedTopics().isEmpty(), "RelatedTopicsList is empty");
+
+        for (RelatedTopic relatedTopic : imageResponse.getRelatedTopics()){
+            if(relatedTopic.getIcon() != null) System.out.println(relatedTopic.getIcon().toString());
+            else {
+                for (RelatedTopic relatedTopic1 : relatedTopic.getTopics()){
+                    System.out.println(relatedTopic1.getIcon().toString());
+                }
+            }
+        }
+
+        log.traceExit("Test completed! testDuckDuckGoSearchAPI");
     }
 
 }
