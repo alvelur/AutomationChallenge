@@ -1,4 +1,4 @@
-# PrediktiveChallenge
+# AutomationChallenge
 
 This project contains automated tests using Selenium for UI testing and RestAssured for API testing. It also includes integration with Allure for report generation.
 
