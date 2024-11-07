@@ -12,6 +12,8 @@ import prediktive.challenge.base.ApiBase;
 import prediktive.challenge.pojo.ImageResponse;
 import prediktive.challenge.pojo.RelatedTopic;
 
+import java.util.ArrayList;
+
 @Log4j2
 public class DuckDuckSearchApiTests {
 
@@ -81,14 +83,23 @@ public class DuckDuckSearchApiTests {
         Assertions.assertNotNull(imageResponse, "Response was null");
         Assertions.assertFalse(imageResponse.getRelatedTopics().isEmpty(), "RelatedTopicsList is empty");
 
+        String completeURL = "";
+        ArrayList<String > urls =  new ArrayList<>();
         for (RelatedTopic relatedTopic : imageResponse.getRelatedTopics()){
-            if(relatedTopic.getIcon() != null) System.out.println(relatedTopic.getIcon().toString());
+            if(relatedTopic.getIcon() != null){
+                if(relatedTopic.getIcon().getURL() != null)
+                    completeURL = relatedTopic.getIcon().getURL();
+                    urls.add(completeURL.substring(3));
+                }
             else {
                 for (RelatedTopic relatedTopic1 : relatedTopic.getTopics()){
-                    System.out.println(relatedTopic1.getIcon().toString());
+                    if(!relatedTopic1.getIcon().getURL().isBlank())
+                        completeURL = relatedTopic1.getIcon().getURL();
                 }
             }
         }
+
+        urls.stream().sorted().forEach(System.out::println);
 
         log.traceExit("Test completed! testDuckDuckGoSearchAPI");
     }

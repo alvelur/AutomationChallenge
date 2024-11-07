@@ -17,10 +17,10 @@ public class DriverFactory {
 
         switch (browser.toLowerCase()) {
             case "chrome":
-                WebDriverManager.chromedriver().setup();
+                //WebDriverManager.chromedriver().setup(); Comment this line for local execution
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--start-maximized");
-                chromeOptions.addArguments("--headless");
+                //chromeOptions.addArguments("--headless");
                 driver = new ChromeDriver(chromeOptions);
                 break;
 

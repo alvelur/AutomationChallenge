@@ -44,4 +44,20 @@ class DuckDuckTests extends BaseUiTest {
         Assertions.assertTrue(duckDuckGoResultsPage.numberOfRegions() > 10,
                 "There are not enough regions available" + duckDuckGoResultsPage.numberOfRegions());
     }
+
+
+    @Test
+    @Description("This test searches for 'android' in DuckDuckGo and validates that all result titles contain the word 'android' and then selecting arabia")
+    public void searchForAndroidAndThenSelectingArabiaResults() {
+
+        duckDuckGoHomePage = new DuckDuckGoHomePage(driver);
+        duckDuckGoHomePage.get("https://start.duckduckgo.com/");
+
+        log.info("Performing search for 'android'");
+        duckDuckGoResultsPage = duckDuckGoHomePage.searchFor("android");
+
+        duckDuckGoResultsPage.openAllRegionsDropDown();
+        duckDuckGoResultsPage.selectArabicRegion();
+
+    }
 }
